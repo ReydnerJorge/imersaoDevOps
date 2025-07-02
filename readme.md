@@ -30,6 +30,7 @@ Este projeto é uma API desenvolvida com FastAPI para gerenciar alunos, cursos e
 
      ```sh
      venv\Scripts\activate
+     deactivate - desativar o venv
      ```
 
 4. **Instale as dependências:**
