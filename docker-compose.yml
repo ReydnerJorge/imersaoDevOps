@@ -1,0 +1,28 @@
+# docker-compose.yml
+version: '3.8' # Especifica a versão do formato do arquivo docker-compose
+
+services:
+  # Serviço da sua aplicação FastAPI
+  app:
+    build: . # Constroi a imagem a partir do Dockerfile na raiz do projeto
+    container_name: gestao-escola-api # Nome do container
+    ports:
+      - "8000:8000" # Mapeia a porta 8000 do host para a porta 8000 do container
+                    # (conforme definido no seu Dockerfile com EXPOSE 8000 e CMD /app)
+    volumes:
+      - .:/app # Monta o diretório atual (onde está seu código) em /app dentro do container.
+              # Isso é ótimo para desenvolvimento, pois as alterações no código
+              # são refletidas automaticamente no container devido ao --reload do uvicorn.
+    ## command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - PYTHONUNBUFFERED=1 # Garante que os logs do Python apareçam imediatamente
+      # Adiciona outras variáveis de ambiente conforme necessário
+      # Ex: - API_KEY=sua_chave_secreta
+    networks:
+      - app-network
+
+# Redes customizadas (boa prática, mesmo para um único serviço, para futuras expansões)
+networks:
+  app-network:
+    driver: bridge
+
